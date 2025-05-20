@@ -43,7 +43,11 @@ public class ProductController {
     @GetMapping("/product/{productId}/image")
     public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
         Product product = productService.getProductById(productId);
-        return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+//        return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+        if(product.getId() > 0)
+            return new ResponseEntity<>(product.getImageData(),HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/product")
@@ -57,6 +61,44 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestPart Product product, @RequestPart MultipartFile imageFile){
+
+        Product updateProduct = null;
+        try {
+            updateProduct = productService.updateProduct(product, imageFile);
+            return new ResponseEntity<>(updateProduct, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id){
+
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            productService.deleteProduct(id);
+
+            return new ResponseEntity<>("Product deleted", HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("Product not available", HttpStatus.NOT_FOUND);
+
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<Product>> searchProduct(@RequestParam String keyword){
+
+        List<Product> products= productService.searchproduct(keyword);
+
+        System.out.println("searching with "+keyword);
+
+        return new ResponseEntity<>(products,HttpStatus.OK);
 
     }
 }
