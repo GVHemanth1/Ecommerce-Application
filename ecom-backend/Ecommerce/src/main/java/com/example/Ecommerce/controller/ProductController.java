@@ -5,7 +5,6 @@ import com.example.Ecommerce.model.Product;
 import com.example.Ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +32,12 @@ public class ProductController {
 
         Product product = productService.getProductById(id);
 
-        if(product.getId() >0)
-            return new ResponseEntity<>(product,HttpStatus.OK);
+        if(product.getId() >0) {
+            System.out.println(product.getProductAvailability());
+
+            return new ResponseEntity<>(product, HttpStatus.OK);
+
+        }
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -73,7 +76,6 @@ public class ProductController {
         } catch (IOException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
 
     }
 

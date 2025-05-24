@@ -2,6 +2,7 @@ package com.example.Ecommerce.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ public class Product {
     private String category;
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
+    @JsonProperty("productAvailability")
     private Boolean productAvailability;
     private int stockQuantity;
     private String imageName;
@@ -145,4 +147,6 @@ public class Product {
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
+
+
 }

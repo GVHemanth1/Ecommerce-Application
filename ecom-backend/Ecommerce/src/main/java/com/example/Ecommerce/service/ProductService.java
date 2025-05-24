@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -22,6 +23,8 @@ public class ProductService {
 
     public Product getProductById(int id) {
 
+        Optional<Product> product = productRepo.findById(id);
+        System.out.println(product);
         return productRepo.findById(id).orElse(new Product(-1));
     }
 
