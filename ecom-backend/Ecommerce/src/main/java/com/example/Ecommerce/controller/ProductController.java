@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
+// Request mapping is added for fixed url routing values
 public class ProductController {
 
     @Autowired
